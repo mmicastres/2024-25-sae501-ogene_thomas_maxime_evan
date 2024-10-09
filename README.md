@@ -3,7 +3,7 @@
 
 ## Corn Beast
 ```mermaid
-  graph TD;
+  graph TB;
 A(Administration
 Students)-->B( DisplayXR application)
 B-->C(Student environment)
