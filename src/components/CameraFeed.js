@@ -5,6 +5,8 @@ const CameraFeed = ({ onCaptureFrame, textFinale, loading }) => {
   const [text, setText] = useState('');
   const captureIntervalRef = useRef(null);
 
+  const [cameraError, setCameraError] = useState(false);
+
   useEffect(() => {
     setText(textFinale);
   }, [textFinale]);
@@ -23,6 +25,7 @@ const CameraFeed = ({ onCaptureFrame, textFinale, loading }) => {
         }
       } catch (error) {
         console.error("Erreur d'accès à la caméra :", error);
+        setCameraError(true);
       }
     };
 
@@ -41,7 +44,7 @@ const CameraFeed = ({ onCaptureFrame, textFinale, loading }) => {
   }, []);
 
   useEffect(() => {
-    if (loading == false && textFinale.trim() === '') {
+    if (loading === false && textFinale.trim() === '') {
       captureIntervalRef.current = setInterval(() => {
         captureFrame();
       }, 1000);
@@ -59,22 +62,34 @@ const CameraFeed = ({ onCaptureFrame, textFinale, loading }) => {
   }, [textFinale]);
 
   const captureFrame = () => {
-    const canvas = document.createElement('canvas');
-    canvas.width = videoRef.current.videoWidth;
-    canvas.height = videoRef.current.videoHeight;
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
-    const imageData = canvas.toDataURL('image/png');
-    onCaptureFrame(imageData);
+    if (videoRef.current && videoRef.current.videoWidth && videoRef.current.videoHeight) {
+      const canvas = document.createElement('canvas');
+      canvas.width = videoRef.current.videoWidth;
+      canvas.height = videoRef.current.videoHeight;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
+      const imageData = canvas.toDataURL('image/png');
+      onCaptureFrame(imageData);
+    } else {
+      console.warn('La vidéo n\'est pas prête pour la capture.');
+    }
   };
 
   return (
     <div>
-      <video ref={videoRef} style={{ width: '100%' }} autoPlay muted />
-      {text === '' && <p>Analyse en cours...</p>}
-      {text !== '' && <p>Salle : {text}</p>}
+      {cameraError ? (
+        <div>
+          <p>La caméra n'est pas disponible sur cet appareil. Veuillez vérifier votre configuration.</p>
+        </div>
+      ) : (
+        <div>
+          <video ref={videoRef} style={{ width: '100%' }} autoPlay muted />
+          {text === '' && <p>Analyse en cours...</p>}
+          {text !== '' && <p>Salle : {text}</p>}
+        </div>
+      )}
     </div>
   );
-};
-
+  
+}
 export default CameraFeed;
