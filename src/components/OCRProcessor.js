@@ -5,7 +5,7 @@ import CameraFeed from './CameraFeed';
 const OCRProcessor = () => {
   const [filteredText, setFilteredText] = useState('');
   const [textFinale, setTextFinale] = useState('');
-  const [loading, setLoading] = useState(false); // État unique pour `loading`
+  const [loading, setLoading] = useState(false);
 
   const handleImageCapture = async (imageData) => {
     setLoading(true);
@@ -14,10 +14,8 @@ const OCRProcessor = () => {
         imageData,
         'fra',
         {
-          langPath: '/public/tessdata/',
-          preprocess: true,
           tessedit_char_whitelist: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
-          logger: (info) => console.log(info)
+          logger: (info) => console.log(info),
         }
       );
 
@@ -40,7 +38,7 @@ const OCRProcessor = () => {
         setFilteredText('');
       }
     } catch (err) {
-      console.error('Erreur:', err);
+      console.error('Erreur :', err);
     } finally {
       setLoading(false);
     }

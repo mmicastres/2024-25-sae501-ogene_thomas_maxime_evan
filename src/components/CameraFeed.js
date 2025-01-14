@@ -2,29 +2,33 @@ import React, { useRef, useEffect, useState } from 'react';
 
 const CameraFeed = ({ onCaptureFrame, textFinale, loading }) => {
   const videoRef = useRef(null);
-  const [text, setText] = useState('');
   const captureIntervalRef = useRef(null);
 
   const [cameraError, setCameraError] = useState(false);
 
   useEffect(() => {
-    setText(textFinale);
-  }, [textFinale]);
-
-  useEffect(() => {
     const startCamera = async () => {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        if (videoRef.current) {
+
+        // Vérifie si la vidéo est déjà en cours de lecture avant de tenter de la démarrer
+        if (videoRef.current && videoRef.current.srcObject !== stream) {
+          if (videoRef.current.srcObject) {
+            // Arrête les pistes existantes
+            const tracks = videoRef.current.srcObject.getTracks();
+            tracks.forEach((track) => track.stop());
+          }
+
           videoRef.current.srcObject = stream;
           videoRef.current.onloadedmetadata = () => {
+            // Démarre la lecture de la vidéo après que les métadonnées aient été chargées
             videoRef.current.play().catch((error) => {
               console.error("Erreur lors de la lecture du flux :", error);
             });
           };
         }
       } catch (error) {
-        console.error("Erreur d'accès à la caméra :", error);
+        console.error('Erreur d\'accès à la caméra :', error);
         setCameraError(true);
       }
     };
@@ -44,14 +48,12 @@ const CameraFeed = ({ onCaptureFrame, textFinale, loading }) => {
   }, []);
 
   useEffect(() => {
-    if (loading === false && textFinale.trim() === '') {
+    if (!loading && !textFinale) {
       captureIntervalRef.current = setInterval(() => {
         captureFrame();
       }, 1000);
-    } else {
-      if (captureIntervalRef.current) {
-        clearInterval(captureIntervalRef.current);
-      }
+    } else if (captureIntervalRef.current) {
+      clearInterval(captureIntervalRef.current);
     }
 
     return () => {
@@ -59,7 +61,7 @@ const CameraFeed = ({ onCaptureFrame, textFinale, loading }) => {
         clearInterval(captureIntervalRef.current);
       }
     };
-  }, [textFinale]);
+  }, [textFinale, loading]);
 
   const captureFrame = () => {
     if (videoRef.current && videoRef.current.videoWidth && videoRef.current.videoHeight) {
@@ -70,26 +72,21 @@ const CameraFeed = ({ onCaptureFrame, textFinale, loading }) => {
       ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
       const imageData = canvas.toDataURL('image/png');
       onCaptureFrame(imageData);
-    } else {
-      console.warn('La vidéo n\'est pas prête pour la capture.');
     }
   };
 
   return (
     <div>
       {cameraError ? (
-        <div>
-          <p>La caméra n'est pas disponible sur cet appareil. Veuillez vérifier votre configuration.</p>
-        </div>
+        <p>La caméra n'est pas disponible. Veuillez vérifier votre configuration.</p>
       ) : (
         <div>
           <video ref={videoRef} style={{ width: '100%' }} autoPlay muted />
-          {text === '' && <p>Analyse en cours...</p>}
-          {text !== '' && <p>Salle : {text}</p>}
+          {loading ? <div className='flex h-4 w-4 rounded-full bg-orange-400 m-1' /> : textFinale && <p>Salle : {textFinale}</p>}
         </div>
       )}
     </div>
   );
-  
-}
+};
+
 export default CameraFeed;

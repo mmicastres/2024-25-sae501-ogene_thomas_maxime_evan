@@ -47,7 +47,7 @@ const CalendarScreen = () => {
                 {/* Ajoutez d'autres options selon vos besoins */}
             </select>
 
-            {filteredEvents.length > 0 ? (
+            {filteredEvents.length > 0 && (
                 <Calendar
                     localizer={localizer}
                     events={filteredEvents}
@@ -56,8 +56,6 @@ const CalendarScreen = () => {
                     titleAccessor="summary"
                     style={{ height: "80vh" }}
                 />
-            ) : (
-                <p>Chargement des données...</p>
             )}
         </div>
     );
