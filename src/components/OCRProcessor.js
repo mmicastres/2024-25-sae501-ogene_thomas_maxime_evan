@@ -19,19 +19,42 @@ const OCRProcessor = () => {
         }
       );
 
-      const regex = /(M.*TP)/;
+      const regex = /(M.*T[PD]|SIDOBRE|ALBINQUE)/;
       const match = text.match(regex);
 
       if (match && match[1]) {
-        let transformedText = match[1]
-          .replace(/o|O/g, '0')
-          .replace(/\s/g, '');
+        let transformedText = match[1];
 
+<<<<<<< HEAD
         const formatCheck = /M\d{2}/;
         if (formatCheck.test(transformedText)) {
           setTextFinale(transformedText);
         }
+=======
+        if (/M.*T[PD]/.test(match[1])) {
+          transformedText = transformedText
+            .replace(/o|O/g, '0')
+            .replace(/\s/g, '');
+
+          const formatCheck = /M\d{2}/;
+          if (!formatCheck.test(transformedText)) {
+            setFilteredText('');
+            return;
+          }
+        } else if (/SIDOBRE|ALBINQUE/.test(match[1])) {
+          const formatCheck = /^SIDOBRE$|^ALBINQUE$/;
+          if (!formatCheck.test(transformedText)) {
+            setFilteredText('');
+            return;
+          }
+        }
+        setFilteredText(transformedText);
+        setTextFinale(transformedText);
+      } else {
+        setFilteredText('');
+>>>>>>> a0bd98cf6b4e9843f311139293f9ba0fa603b25c
       }
+
     } catch (err) {
       console.error('Erreur :', err);
     } finally {
