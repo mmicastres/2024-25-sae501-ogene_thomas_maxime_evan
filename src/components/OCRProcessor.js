@@ -15,22 +15,15 @@ const OCRProcessor = () => {
         'fra',
         {
           tessedit_char_whitelist: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
-          logger: (info) => console.log(info),
         }
       );
 
-      const regex = /(M.*T[PD]|SIDOBRE|ALBINQUE)/;
+      const regex = /(M\d{2}-T[PD]|SIDOBRE|ALBINQUE)/;
       const match = text.match(regex);
 
       if (match && match[1]) {
         let transformedText = match[1];
 
-<<<<<<< HEAD
-        const formatCheck = /M\d{2}/;
-        if (formatCheck.test(transformedText)) {
-          setTextFinale(transformedText);
-        }
-=======
         if (/M.*T[PD]/.test(match[1])) {
           transformedText = transformedText
             .replace(/o|O/g, '0')
@@ -38,21 +31,15 @@ const OCRProcessor = () => {
 
           const formatCheck = /M\d{2}/;
           if (!formatCheck.test(transformedText)) {
-            setFilteredText('');
             return;
           }
         } else if (/SIDOBRE|ALBINQUE/.test(match[1])) {
           const formatCheck = /^SIDOBRE$|^ALBINQUE$/;
           if (!formatCheck.test(transformedText)) {
-            setFilteredText('');
             return;
           }
         }
-        setFilteredText(transformedText);
         setTextFinale(transformedText);
-      } else {
-        setFilteredText('');
->>>>>>> a0bd98cf6b4e9843f311139293f9ba0fa603b25c
       }
 
     } catch (err) {
@@ -64,106 +51,97 @@ const OCRProcessor = () => {
 
   useEffect(() => {
     if (textFinale) {
-      let title = textFinale
+      let title = textFinale;
 
-      if (textFinale === "ALBINQUE"){
-        title = "Grand Amphi"
-      } else if (textFinale === "SIDOBRE"){
-        title = "Petit Amphi"
+      if (textFinale === "ALBINQUE") {
+        title = "Grand Amphi";
+      } else if (textFinale === "SIDOBRE") {
+        title = "Petit Amphi";
       }
 
       const newSalle = {
         salle: [
           {
-            id: textToId(),
+            id: textToId(textFinale),
             title: title,
-            eventColor: textToColor,
+            eventColor: textToColor(textFinale),
           },
         ],
-      }
-      setSalle(newSalle)
+      };
+      setSalle(newSalle);
     }
-  }, [textFinale])
+  }, [textFinale]);
 
   useEffect(() => {
-    console.log(salle)
-  }, [salle])
+    console.log(salle);
+  }, [salle]);
 
-//Return l'Id de la salle
-const textToId = ({ textFinale }) => {
-  switch (textFinale) {
-    case 'M01-TD':
-      return 12673;
-    case 'M02-TD':
-      return 12981;
-    case 'M03-TP':
-      return 19393;
-    case 'M05-TP':
-      return 12680;
-    case 'M06-TP':
-      return 43372;
-    case 'M07-TP':
-      return 12677;
-    case 'M09-TP':
-      return 12678;
-    case 'M10-TP':
-      return 12679;
-    case 'M11-TD':
-      return 12674;
-    case 'M13-TP':
-      return 62575;
-    case 'M14-TD':
-      return 13927;
-    //Reconnaissance des Amphi
-    case 'ALBINQUE':
-      return 12983;
-    case 'SIDOBRE':
-      return 12982;
-    default:
-      return null;
-  }
-}
+  // Retourne l'ID de la salle
+  const textToId = (textFinale) => {
+    switch (textFinale) {
+      case 'M01-TD':
+        return 12673;
+      case 'M02-TD':
+        return 12981;
+      case 'M03-TP':
+        return 19393;
+      case 'M05-TP':
+        return 12680;
+      case 'M06-TP':
+        return 43372;
+      case 'M07-TP':
+        return 12677;
+      case 'M09-TP':
+        return 12678;
+      case 'M10-TP':
+        return 12679;
+      case 'M11-TD':
+        return 12674;
+      case 'M13-TP':
+        return 62575;
+      case 'M14-TD':
+        return 13927;
+      // Reconnaissance des Amphi
+      case 'ALBINQUE':
+        return 12983;
+      case 'SIDOBRE':
+        return 12982;
+      default:
+        return null;
+    }
+  };
 
-const textToColor = ({ textFinale }) => {
-  switch (textFinale) {
-    case 'M01-TD':
-      return "#FFD7B0";
-    case 'M02-TD':
-      return "#FFD7B0";
-    case 'M03-TP':
-      return "#FFFFBF";
-    case 'M05-TP':
-      return "#FFFFBF";
-    case 'M06-TP':
-      return "#FFFFBF";
-    case 'M07-TP':
-      return "#FFFFBF";
-    case 'M09-TP':
-      return "#FFFFBF";
-    case 'M10-TP':
-      return "#FFFFBF";
-    case 'M11-TD':
-      return "#FFD7B0";
-    case 'M13-TP':
-      return "#FFFFBF";
-    case 'M14-TD':
-      return "#FFD7B0";
-    //Reconnaissance des Amphi
-    case 'ALBINQUE':
-      return "#BEEAFF";
-    case 'SIDOBRE':
-      return "#BEEAFF";
-    default:
-      return null;
-  }
-}
+  // Retourne la couleur associée à la salle
+  const textToColor = (textFinale) => {
+    switch (textFinale) {
+      case 'M01-TD':
+      case 'M02-TD':
+        return "#FFD7B0";
+      case 'M03-TP':
+      case 'M05-TP':
+      case 'M06-TP':
+      case 'M07-TP':
+      case 'M09-TP':
+      case 'M10-TP':
+      case 'M13-TP':
+        return "#FFFFBF";
+      case 'M11-TD':
+      case 'M14-TD':
+        return "#FFD7B0";
+      // Reconnaissance des Amphi
+      case 'ALBINQUE':
+      case 'SIDOBRE':
+        return "#BEEAFF";
+      default:
+        return null;
+    }
+  };
 
-
-return (
-  <div>
-    <CameraFeed onCaptureFrame={handleImageCapture} textFinale={textFinale} loading={loading} />
-  </div>
-);
+  return (
+    <div>
+      <CameraFeed onCaptureFrame={handleImageCapture} textFinale={textFinale} loading={loading} />
+    </div>
+  );
 };
 
 export default OCRProcessor;
