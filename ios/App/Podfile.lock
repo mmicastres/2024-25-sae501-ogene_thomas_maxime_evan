@@ -1,7 +1,7 @@
 PODS:
   - Capacitor (6.2.0):
     - CapacitorCordova
-  - CapacitorCamera (6.1.1):
+  - CapacitorCamera (6.1.2):
     - Capacitor
   - CapacitorCordova (6.2.0)
 
@@ -20,7 +20,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Capacitor: 1f3c7b9802d958cd8c4eb63895fff85dff2e1eea
-  CapacitorCamera: b9904b48258a91a48930e72a400638a5fc223b27
+  CapacitorCamera: 9052bd3f464f135ba983feccd8ac1266272f0549
   CapacitorCordova: b33e7f4aa4ed105dd43283acdd940964374a87d9
 
 PODFILE CHECKSUM: 39250892ef0344d4847cd4c683520cd02a8223b6

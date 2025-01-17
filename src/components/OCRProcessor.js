@@ -1,11 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import Tesseract from 'tesseract.js';
 import CameraFeed from './CameraFeed';
+import { useIa } from "../context/Ia"
 
 const OCRProcessor = () => {
   const [textFinale, setTextFinale] = useState('');
   const [loading, setLoading] = useState(false);
   const [salle, setSalle] = useState(false);
+
+  const {setSaller, resultr } = useIa()
+
+  useEffect(() => {
+    setSaller(salle)
+  }, [salle])
+  
+
+  const handleReset = () => {
+    setTextFinale('')
+  }
 
   const handleImageCapture = async (imageData) => {
     setLoading(true);
@@ -140,6 +152,8 @@ const OCRProcessor = () => {
   return (
     <div>
       <CameraFeed onCaptureFrame={handleImageCapture} textFinale={textFinale} loading={loading} />
+      {textFinale && <button className='flex p-2 bg-black text-white rounded-2xl' onClick={() => handleReset()}>Reset</button>}
+      {resultr && <p>{resultr}</p>}
     </div>
   );
 };

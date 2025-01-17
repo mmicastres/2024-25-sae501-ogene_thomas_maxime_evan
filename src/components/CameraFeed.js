@@ -1,43 +1,61 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState } from "react";
 
 const CameraFeed = ({ onCaptureFrame, textFinale, loading }) => {
-  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
+  const videoStreamRef = useRef(null);
   const captureIntervalRef = useRef(null);
 
   const [cameraError, setCameraError] = useState(false);
+  const [flashActive, setFlashActive] = useState(false);
 
   useEffect(() => {
     const startCamera = async () => {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        const constraints = {
+          video: {
+            facingMode: { exact: "environment" }, // Utilise explicitement la caméra arrière
+          },
+        };
 
-        // Vérifie si la vidéo est déjà en cours de lecture avant de tenter de la démarrer
-        if (videoRef.current && videoRef.current.srcObject !== stream) {
-          if (videoRef.current.srcObject) {
-            // Arrête les pistes existantes
-            const tracks = videoRef.current.srcObject.getTracks();
-            tracks.forEach((track) => track.stop());
-          }
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        videoStreamRef.current = stream;
 
-          videoRef.current.srcObject = stream;
-          videoRef.current.onloadedmetadata = () => {
-            // Démarre la lecture de la vidéo après que les métadonnées aient été chargées
-            videoRef.current.play().catch((error) => {
-              console.error("Erreur lors de la lecture du flux :", error);
-            });
-          };
-        }
+        const videoElement = document.createElement("video");
+        videoElement.srcObject = stream;
+
+        videoElement.onloadedmetadata = () => {
+          videoElement.play();
+          drawToCanvas(videoElement);
+        };
       } catch (error) {
-        console.error('Erreur d\'accès à la caméra :', error);
+        console.error("Erreur d'accès à la caméra :", error);
         setCameraError(true);
       }
+    };
+
+    const drawToCanvas = (videoElement) => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+
+      const ctx = canvas.getContext("2d");
+
+      const renderFrame = () => {
+        if (videoElement.readyState === videoElement.HAVE_ENOUGH_DATA) {
+          canvas.width = videoElement.videoWidth;
+          canvas.height = videoElement.videoHeight;
+          ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+        }
+        requestAnimationFrame(renderFrame);
+      };
+
+      renderFrame();
     };
 
     startCamera();
 
     return () => {
-      if (videoRef.current && videoRef.current.srcObject) {
-        const tracks = videoRef.current.srcObject.getTracks();
+      if (videoStreamRef.current) {
+        const tracks = videoStreamRef.current.getTracks();
         tracks.forEach((track) => track.stop());
       }
 
@@ -64,14 +82,38 @@ const CameraFeed = ({ onCaptureFrame, textFinale, loading }) => {
   }, [textFinale, loading]);
 
   const captureFrame = () => {
-    if (videoRef.current && videoRef.current.videoWidth && videoRef.current.videoHeight) {
-      const canvas = document.createElement('canvas');
-      canvas.width = videoRef.current.videoWidth;
-      canvas.height = videoRef.current.videoHeight;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
-      const imageData = canvas.toDataURL('image/png');
+    const canvas = canvasRef.current;
+    if (canvas) {
+      const imageData = canvas.toDataURL("image/png");
       onCaptureFrame(imageData);
+    }
+  };
+
+  const toggleFlash = () => {
+    if (videoStreamRef.current) {
+      const videoTrack = videoStreamRef.current
+        .getVideoTracks()
+        .find((track) => track.getCapabilities().torch);
+
+      if (videoTrack) {
+        const settings = videoTrack.getSettings();
+        const capabilities = videoTrack.getCapabilities();
+
+        if (capabilities.torch) {
+          videoTrack
+            .applyConstraints({
+              advanced: [{ torch: !flashActive }],
+            })
+            .then(() => {
+              setFlashActive((prevState) => !prevState);
+            })
+            .catch((error) => {
+              console.error("Erreur lors de l'activation du flash :", error);
+            });
+        }
+      } else {
+        console.warn("Le périphérique ne prend pas en charge la fonction torche.");
+      }
     }
   };
 
@@ -81,8 +123,15 @@ const CameraFeed = ({ onCaptureFrame, textFinale, loading }) => {
         <p>La caméra n'est pas disponible. Veuillez vérifier votre configuration.</p>
       ) : (
         <div>
-          <video ref={videoRef} style={{ width: '100%' }} autoPlay muted />
-          {loading ? <div className='flex h-4 w-4 rounded-full bg-orange-400 m-1' /> : textFinale && <p>Salle : {textFinale}</p>}
+          <canvas ref={canvasRef} style={{ width: "100%" }} />
+          <button onClick={toggleFlash} style={{ marginTop: "10px" }}>
+            {flashActive ? "Désactiver le flash" : "Activer le flash"}
+          </button>
+          {loading ? (
+            <div className="flex h-4 w-4 rounded-full bg-orange-400 m-1" />
+          ) : (
+            textFinale && <p>Salle : {textFinale}</p>
+          )}
         </div>
       )}
     </div>
