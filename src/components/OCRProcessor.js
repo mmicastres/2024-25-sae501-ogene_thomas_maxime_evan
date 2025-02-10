@@ -8,7 +8,7 @@ const OCRProcessor = () => {
   const [loading, setLoading] = useState(false);
   const [salle, setSalle] = useState(false);
 
-  const {setSaller, resultr } = useIa()
+  const {setSaller} = useIa()
 
   useEffect(() => {
     setSaller(salle)
@@ -153,7 +153,6 @@ const OCRProcessor = () => {
     <div>
       <CameraFeed onCaptureFrame={handleImageCapture} textFinale={textFinale} loading={loading} />
       {textFinale && <button className='flex p-2 bg-black text-white rounded-2xl' onClick={() => handleReset()}>Reset</button>}
-      {resultr && <p>{resultr}</p>}
     </div>
   );
 };
