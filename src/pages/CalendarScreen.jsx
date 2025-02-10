@@ -34,8 +34,6 @@ const CalendarScreen = () => {
     });
 
 
-    const {resultr} = useIa()
-
     return (
         <div>
             <h1>Emploi du Temps</h1>
@@ -50,7 +48,7 @@ const CalendarScreen = () => {
                 <option value="M09-TP">M09-TP</option>
                 {/* Ajoutez d'autres options selon vos besoins */}
             </select>
-            <p>{resultr}</p>
+            
 
             {filteredEvents.length > 0 && (
                 <Calendar
