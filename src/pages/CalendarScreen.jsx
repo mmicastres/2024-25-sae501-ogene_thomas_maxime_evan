@@ -4,6 +4,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import moment from "moment";
 import ICAL from "ical.js"; // Importation de ICAL pour le traitement du fichier ICS
 import { fetchICSData } from "../services/fetchICS"; // Import de la fonction fetchICSData depuis les services
+import { useIa } from "../context/Ia"
 
 const localizer = momentLocalizer(moment);
 
@@ -32,6 +33,9 @@ const CalendarScreen = () => {
         return event.location.split(";").some((loc) => loc.trim() === selectedLocation);
     });
 
+
+    const {resultr} = useIa()
+
     return (
         <div>
             <h1>Emploi du Temps</h1>
@@ -46,6 +50,7 @@ const CalendarScreen = () => {
                 <option value="M09-TP">M09-TP</option>
                 {/* Ajoutez d'autres options selon vos besoins */}
             </select>
+            <p>{resultr}</p>
 
             {filteredEvents.length > 0 && (
                 <Calendar

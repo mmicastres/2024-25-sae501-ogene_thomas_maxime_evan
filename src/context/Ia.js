@@ -36,7 +36,6 @@ export function IaProvider({ children }) {
           setResultr(response)
           console.log("Réponse du serveur :", result);
         } catch (error) {
-            setResultr(error)
           console.error("Erreur lors de la requête POST :", error);
         }
       };
