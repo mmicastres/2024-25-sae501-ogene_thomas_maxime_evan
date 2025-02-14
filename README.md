@@ -26,6 +26,10 @@ Pour le fonctionnement, l'utilisateur se munit de son téléphone pour scaner l'
  ![calendarScreen](calendarScreen.jpeg)
 ### Video de démonstration
 
+
+https://github.com/user-attachments/assets/3c475a92-3461-4a4f-bfbb-141bed601cee
+
+
 ![demo](video.mp4)
 
 ## Architecture
