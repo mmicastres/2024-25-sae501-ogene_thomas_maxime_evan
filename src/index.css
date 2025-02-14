@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --sat: env(safe-area-inset-top);
+  --sab: env(safe-area-inset-bottom);
+  --sal: env(safe-area-inset-left);
+  --sar: env(safe-area-inset-right);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.pt-safe-top {
+  padding-top: max(16px, var(--sat));
+}
+
+.pb-safe-bottom {
+  padding-bottom: max(16px, var(--sab));
+}
+
+.pl-safe-left {
+  padding-left: max(16px, var(--sal));
+}
+
+.pr-safe-right {
+  padding-right: max(16px, var(--sar));
+}
+
+.active\:scale-98:active {
+  transform: scale(0.98);
+}
+
+/* Styles spécifiques pour iOS */
+@supports (-webkit-touch-callout: none) {
+  .min-h-screen {
+    min-height: -webkit-fill-available;
+  }
+}
