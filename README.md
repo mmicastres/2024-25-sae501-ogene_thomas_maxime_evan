@@ -20,9 +20,14 @@ Pour le fonctionnement, l'utilisateur se munit de son téléphone pour scaner l'
 - avoir son propre emploi du temps sur l'application
 - avoir l'emploi du temps hebdomadaire des salles ou sur de plus longues durrées
 ## Screens
-[homeScreen](homeScreen.jpeg)![connexionScreen](connexionScreen.jpeg) ![signUpScreen](signUpScreen.jpeg) ![calendarScreen](calendarScreen.jpeg)
+  [homeScreen](homeScreen.jpeg)
+  [connexionScreen](connexionScreen.jpeg)
+  [signUpScreen](signUpScreen.jpeg) 
+  [calendarScreen](calendarScreen.jpeg)
 ### Video de démonstration
+
 [demo](video.mp4)
+
 ## Architecture
 ### Backend
 Cette application utilise une API interne à l'I.U.T de Castres pour la recupération des données des emploi du temps.
