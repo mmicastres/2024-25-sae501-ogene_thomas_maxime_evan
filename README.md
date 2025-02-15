@@ -6,15 +6,15 @@ Pour le fonctionnement, l'utilisateur se munit de son téléphone pour scaner l'
 
 ## Corn Beast
 ```mermaid
-graph LR
-A[Utilisateurs finaux étudiants] --> B[Application mobile]
-B --> C[Caméra du smartphone]
-C --> D[Détection de texte par IA]
-D --> E[Extraction des emplois du temps]
-E --> F[Salles de cours]
-F --> G[Emploi du temps des salles]
-G --> H[Affichage dans l'application]
-H --> A
+graph TD
+    A[Usager] -->|À qui rend-il service ?| B[Produit]
+    C[Matière d'Œuvre] -->|Sur quoi agit-il ?| B
+    B -->|Dans quel but ?| D[**Fonction d'usage ou besoin**]
+    style A fill:#4169E1,stroke:#000,stroke-width:2px,color:#fff
+    style C fill:#FFD700,stroke:#000,stroke-width:2px,color:#000
+    style B fill:#DC143C,stroke:#000,stroke-width:2px,color:#fff
+    style D fill:#228B22,stroke:#000,stroke-width:2px,color:#fff
+
 ```
 
 
