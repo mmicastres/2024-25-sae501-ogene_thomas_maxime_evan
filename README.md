@@ -5,7 +5,18 @@ EDT-IA: Est une application mobile, permettant de visualiser l'emploi de temps d
 Pour le fonctionnement, l'utilisateur se munit de son téléphone pour scaner l'intitulé des portes de l'IUT, ensuite l'emploi du temps du jours de la salle est affiché sur l'écran avec toute les informations correspondantes.
 
 ## Corn Beast
-```mermaid graph LR A[Utilisateurs finaux (étudiants)] --> B[Application mobile] B --> C[Caméra du smartphone] C --> D[Détection de texte par IA] D --> E[Extraction des emplois du temps] E --> F[Salles de cours] F --> G[Emploi du temps des salles] G --> H[Affichage dans l'application] H --> A ```
+```mermaid
+graph LR
+A[Utilisateurs finaux (étudiants)] --> B[Application mobile]
+B --> C[Caméra du smartphone]
+C --> D[Détection de texte par IA]
+D --> E[Extraction des emplois du temps]
+E --> F[Salles de cours]
+F --> G[Emploi du temps des salles]
+G --> H[Affichage dans l'application]
+H --> A
+```
+
 
 
 ## Fonctionnalités
