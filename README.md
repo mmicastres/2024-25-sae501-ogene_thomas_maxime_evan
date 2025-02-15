@@ -7,9 +7,9 @@ Pour le fonctionnement, l'utilisateur se munit de son téléphone pour scaner l'
 ## Corn Beast
 ```mermaid
 graph TD
-    A[Usager] -->|À qui rend-il service ?| B[Produit]
-    C[Matière d'Œuvre] -->|Sur quoi agit-il ?| B
-    B -->|Dans quel but ?| D[**Fonction d'usage ou besoin**]
+    A[Etudants IUT-Castres] -->|À qui rend-il service ?| B[Application mobile:EDT-IA]
+    C[Information interne de l'IUT et le quotidien des etudiants] -->|Sur quoi agit-il ?| B
+    B -->|Dans quel but ?| D[permettre aux etudiants de connaitre la disponibilité des salles rapidement]
     style A fill:#4169E1,stroke:#000,stroke-width:2px,color:#fff
     style C fill:#FFD700,stroke:#000,stroke-width:2px,color:#000
     style B fill:#DC143C,stroke:#000,stroke-width:2px,color:#fff
