@@ -7,7 +7,7 @@ Pour le fonctionnement, l'utilisateur se munit de son téléphone pour scaner l'
 ## Corn Beast
 ```mermaid
 graph LR
-A[Utilisateurs finaux (étudiants)] --> B[Application mobile]
+A[Utilisateurs finaux étudiants] --> B[Application mobile]
 B --> C[Caméra du smartphone]
 C --> D[Détection de texte par IA]
 D --> E[Extraction des emplois du temps]
