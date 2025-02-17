@@ -51,7 +51,7 @@ Une base de donnée en MongoDB avec express.js
 Le framework javascript `React` à été utilisé pour développer ce projet avec l'implémentation de l'environnement d'exécution `Capacitor` qui permet de développer des projets avec des technologies web pour une exécution en natif sur mobile ou ordinateur.
 ### Et la technologie novatrice l'IA
 Dans ce projet nous avons utilisé l'intelligence artificielle Tesseract (IA) spécialisée dans la gestion de texte et la génération d'images.
-## Installationde l'application
+## Installation de l'application
 ### Sur android
 - recupérez le fichier 'EDTAI.apk' sur ce dépot
 - autorisez l'installation d'application externe à google playstore
@@ -59,9 +59,14 @@ Dans ce projet nous avons utilisé l'intelligence artificielle Tesseract (IA) sp
 - autorisez l'accès à la caméra
 - dirigez votre camera face au nom de la porte dont vous voulez avoir l'emploi du temps 
 ### Sur IOS
+- recupérez le fichier 'EDTAI.apk' sur ce dépot
+- autorisez l'installation d'application externe 
+- installez l'application
+- autorisez l'accès à la caméra
+- dirigez votre camera face au nom de la porte dont vous voulez avoir l'emploi du temps 
 ## Pour les développeurs
 ### installation
-Ce projet necessite:
+Ce projet nécessite:
 ```
    "@capacitor-community/http": "^1.4.1",
     "@capacitor/android": "^6.2.0",
