@@ -51,4 +51,49 @@ Une base de donnée en MongoDB avec express.js
 Le framework javascript `React` à été utilisé pour développer ce projet avec l'implémentation de l'environnement d'exécution `Capacitor` qui permet de développer des projets avec des technologies web pour une exécution en natif sur mobile ou ordinateur.
 ### Et la technologie novatrice l'IA
 Dans ce projet nous avons utilisé l'intelligence artificielle Tesseract (IA) spécialisée dans la gestion de texte et la génération d'images.
+## Installationde l'application
+### Sur android
+- recupérez le fichier 'EDTAI.apk' sur ce dépot
+- autorisez l'installation d'application externe à google playstore
+- installez l'application
+- autorisez l'accès à la caméra
+- dirigez votre camera face au nom de la porte dont vous voulez avoir l'emploi du temps 
+### Sur IOS
+## Pour les développeurs
+### installation
+Ce projet necessite:
+```
+   "@capacitor-community/http": "^1.4.1",
+    "@capacitor/android": "^6.2.0",
+    "@capacitor/camera": "^6.1.2",
+    "@capacitor/cli": "^6.2.0",
+    "@capacitor/core": "^6.2.0",
+    "@capacitor/ios": "^6.2.0",
+    "@tensorflow/tfjs": "^4.1.0",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.7.9",
+    "date-fns": "^4.1.0",
+    "ical.js": "^2.1.0",
+    "react": "^18.3.1",
+    "react-big-calendar": "^1.17.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^7.1.5",
+    "react-scripts": "5.0.1",
+    "tesseract.js": "^5.1.1",
+    "web-vitals": "^2.1.4"
+```
+### Lancer le projet
+- Clonez le dépot git
+- ouvrez votre dépot dans le terminal 
+- executez les commandes
+  ```
+  npm install
+  npm run build
+  npx cap sync
+  npx cap open android //ou ios si vous developper sur ios
+
+  ```
+
 
